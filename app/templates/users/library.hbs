@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="row">
+<div class="library-container-boundary">
+
     {{! Kitsu Library Content Ad }}
     {{#unless session.account.isPro}}
       <div class="library-ad col-sm-12 no-padding">
@@ -14,7 +14,7 @@
       </div>
     {{/unless}}
 
-    <div class="library-content col-sm no-padding-left">
+    <div class="library-content no-padding-left">
       {{! Search }}
       {{users/library/library-search
         query=title
@@ -44,6 +44,18 @@
           class="library-filters"
         }}
       </section>
+      
+      {{! Sidebar }}
+      {{users/library/library-sidebar
+        user=user
+        media=media
+        status=status
+        counts=model.taskInstance.value.meta.statusCounts
+        updateMedia=(action (mut media))
+        updateStatus=(action (mut status))
+        resetLibrary=(route-action "resetLibrary")
+        class="library-sidebar"
+      }}
 
       {{! Library Entries }}
       {{#infinite-pagination
@@ -62,23 +74,10 @@
         }}
 
         {{#if isLoading}}
-          <div class="m-b-2 library-list-pagination">
+          <div class="library-list-pagination">
             {{component (concat "users/library/library-" layoutStyle "/loader")}}
           </div>
         {{/if}}
       {{/infinite-pagination}}
     </div>
-
-    {{! Sidebar }}
-    {{users/library/library-sidebar
-      user=user
-      media=media
-      status=status
-      counts=model.taskInstance.value.meta.statusCounts
-      updateMedia=(action (mut media))
-      updateStatus=(action (mut status))
-      resetLibrary=(route-action "resetLibrary")
-      class="library-sidebar col-sm"
-    }}
-  </div>
 </div>
